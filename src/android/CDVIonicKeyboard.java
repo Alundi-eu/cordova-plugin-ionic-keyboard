@@ -172,10 +172,9 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                         }
 
                         private int getStatusBarHeight() {
-                            final Window window = cordova.getActivity().getWindow();
-                            Rect r = new Rect();
-                            window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
-                            int statusBarHeight = rectangle.top;
+                            val statusBarHeightId = resources.getIdentifier("status_bar_height", "dimen", "android");
+                            val statusBarHeight = resources.getDimensionPixelSize(statusBarHeightId);
+                            
                             return statusBarHeight;
                         }
                     };
