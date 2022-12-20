@@ -161,7 +161,7 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                         private int computeUsableHeight() {
                             Rect r = new Rect();
                             mChildOfContent.getWindowVisibleDisplayFrame(r);
-                            return isFullScreen() ? r.bottom + (getStatusBarHeight()) : r.height();
+                            return isFullScreen() ? r.bottom + (getStatusBarHeight()) + 100: r.height();
                         }
 
                         private boolean isFullScreen() {
