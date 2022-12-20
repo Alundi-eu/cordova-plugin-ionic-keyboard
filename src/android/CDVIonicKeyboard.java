@@ -161,7 +161,7 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                         private int computeUsableHeight() {
                             Rect r = new Rect();
                             mChildOfContent.getWindowVisibleDisplayFrame(r);
-                            return isFullScreen() ? r.bottom : r.height();
+                            return isFullScreen() ? r.bottom + (getStatusBarHeight()) : r.height();
                         }
 
                         private boolean isFullScreen() {
@@ -169,6 +169,14 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                             // Flag set by status bar plugin to make content full screen
                             int fullScreenFlag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
                             return (window.getDecorView().getSystemUiVisibility() & fullScreenFlag) == fullScreenFlag;
+                        }
+
+                        private int getStatusBarHeight() {
+                            final Window window = cordova.getActivity().getWindow();
+                            Rect r = new Rect();
+                            window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+                            int statusBarHeight = rectangle.top;
+                            return statusBarHeight;
                         }
                     };
 
