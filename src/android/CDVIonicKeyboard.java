@@ -17,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
 import android.view.WindowInsets;
 import android.view.inputmethod.InputMethodManager;
 
@@ -113,7 +114,7 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                                 // calculate screen height differently for android versions <23: Lollipop 5.x,
                                 // Marshmallow 6.x
                                 // http://stackoverflow.com/a/29257533/3642890 beware of nexus 5
-                                Display display = activity.getWindowManager().getDefaultDisplay();
+                                Display display = cordova.getActivity().getWindowManager().getDefaultDisplay();
                                 Point size = new Point();
                                 display.getSize(size);
                                 screenHeight = size.y;
@@ -161,7 +162,8 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                         private int computeUsableHeight() {
                             Rect r = new Rect();
                             mChildOfContent.getWindowVisibleDisplayFrame(r);
-                            return isFullScreen() ? r.bottom + (getStatusBarHeight()) + 100: r.height();
+                            return isFullScreen() ? r.bottom //+ getStatusBarHeight()
+                             : r.height();
                         }
 
                         private boolean isFullScreen() {
@@ -172,9 +174,10 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                         }
 
                         private int getStatusBarHeight() {
-                            val statusBarHeightId = resources.getIdentifier("status_bar_height", "dimen", "android");
-                            val statusBarHeight = resources.getDimensionPixelSize(statusBarHeightId);
-                            
+                            final Window window = cordova.getActivity().getWindow();
+                            Rect r = new Rect();
+                            window.getDecorView().getWindowVisibleDisplayFrame(r);
+                            int statusBarHeight = r.top;
                             return statusBarHeight;
                         }
                     };
